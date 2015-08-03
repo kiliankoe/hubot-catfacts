@@ -1,16 +1,16 @@
 {
   "name": "hubot-catfacts",
   "description": "subscribe to Cat Facts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Kilian Koeltzsch <me@kilian.io>",
   "license": "MIT",
   "keywords": "hubot,hubot-scripts,cat,facts,fun",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hubot-scripts/hubot-catfacts.git"
+    "url": "git://github.com/kiliankoe/hubot-catfacts.git"
   },
   "bugs": {
-    "url": "https://github.com/hubot-scripts/hubot-catfacts/issues"
+    "url": "https://github.com/kiliankoe/hubot-catfacts/issues"
   },
   "dependencies": {
     "cron": "^1.0.9"

@@ -2,7 +2,7 @@
 
 Subscribe to Cat Facts! Thanks for using Cat Facts!
 
-See [`src/catfacts.coffee`](src/catfacts.coffee) for full documentation.
+See [`src/catfacts.coffee`](src/catfacts.coffee) for full documentation. I'd rather you don't though, it's particularly hideous :D
 
 ## Installation
 
