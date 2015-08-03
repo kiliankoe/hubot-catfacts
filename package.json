@@ -1,7 +1,7 @@
 {
   "name": "hubot-catfacts",
   "description": "subscribe to Cat Facts",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Kilian Koeltzsch <me@kilian.io>",
   "license": "MIT",
   "keywords": "hubot,hubot-scripts,cat,facts,fun",
