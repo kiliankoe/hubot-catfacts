@@ -4,6 +4,8 @@ Subscribe to Cat Facts! Thanks for using Cat Facts!
 
 See [`src/catfacts.coffee`](src/catfacts.coffee) for full documentation. I'd rather you don't though, it's particularly hideous :D
 
+You might actually not want to use this either in it's current form. It seems to be working locally, but it's never been tested with a hubot connected to an actual chatroom.
+
 ## Installation
 
 In hubot project repo, run:
