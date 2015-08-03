@@ -5,45 +5,41 @@
 #   HUBOT_CATFACTS_FACTINTERVAL: When to send out cat facts, uses cron syntax and defaults to '00 00 * * * *' (hourly)
 #
 # Commands:
-#   hubot catfact - subscribe yourself to Cat Facts. Thanks for using Cat Facts!
+#   hubot catfact - subscribe yourself to Cat Facts. Thanks for using Cat Facts™!
 #
 # Author:
 #   Kilian Koeltzsch <me@kilian.io>
 
 cronjob = require("cron").CronJob
-catfactsinterval = process.env.HUBOT_CATFACTS_FACTINTERVAL or "*/5 * * * * *"
+catfactsinterval = process.env.HUBOT_CATFACTS_FACTINTERVAL or "00 00 * * * *"
 
 module.exports = (robot) ->
 
   new cronjob(catfactsinterval, ->
-    subscribers = robot.brain.get("catfactusers")
-    unless subscribers == null
-      subscribers = subscribers.split("|")
-      for subscriber in subscribers
-        sendCatFact subscriber
+    messageSubscribers()
   , null, true, "Europe/Berlin")
 
   robot.hear /foobar/, (res) ->
     subscribers = robot.brain.get("catfactusers")
-    console.log(subscribers)
+    console.log subscribers
 
   robot.respond /catfact/i, (res) ->
     user = res.envelope.user.name
     subscribeUser user
 
-    robot.send {room: user}, "You have now been subscribed to Cat Facts. Type 'cancel' to unsubscribe."
+    robot.send {room: user}, "You have now been subscribed to Cat Facts. Type 'cat facts™ unsubscribe' to unsubscribe. Thanks for using Cat Facts™!"
     sendCatFact user
 
-  robot.respond /cancel|unsubscribe|a+h/i, (res) ->
+  robot.respond /cat facts™ unsubscribe|cancel/i, (res) ->
     user = res.envelope.user.name
     if isUserSubscribed(user)
-      res.send "Command not recognized. You have a 2 year subscription to Cat Facts and will receive fun hourly updates!"
+      res.send "Command not recognized. You have a 2 year subscription to Cat Facts and will receive fun hourly updates! Thanks for using Cat Facts™!"
       unsubscribeUser user
       setTimeout () ->
         sendCatFact user
       , 3600 * 1000
     else
-      robot.send {room: user}, "You have now been subscribed to Cat Facts. Type 'cancel' to unsubscribe."
+      robot.send {room: user}, "You have now been subscribed to Cat Facts™. Type 'cat facts™ unsubscribe' to unsubscribe. Thanks for using Cat Facts™!"
       subscribeUser user
 
 
@@ -52,9 +48,9 @@ module.exports = (robot) ->
       .get() (error, res, body) ->
         response = JSON.parse(body)
         if response.success == "true"
-          robot.send {room: user}, response.facts[0] + " Thanks for using Cat Facts!"
+          robot.send {room: user}, response.facts[0] + " Thanks for using Cat Facts™!"
         else
-          robot.send {room: user}, "Cat Facts will be back shortly. Thanks for using Cat Facts!"
+          robot.send {room: user}, "Cat Facts™ will be back shortly. Thanks for using Cat Facts™!"
 
   subscribeUser = (user) ->
     # I don't give a fuck about redis lists. String is love, string is life.
@@ -68,14 +64,22 @@ module.exports = (robot) ->
         robot.brain.set "catfactusers", subscribers.join("|")
 
   unsubscribeUser = (user) ->
-    subscribers = robot.brain.get("catfactusers") or ""
-    subscribers = subscribers.split("|")
-    list = []
-    for subscriber in subscribers
-      unless subscriber == user
-        list += user
-    robot.brain.set "catfactusers", list.join("|")
+    subscribers = robot.brain.get("catfactusers")
+    unless subscribers == null
+      subscribers = subscribers.split("|")
+      list = []
+      for subscriber in subscribers
+        unless subscriber == user
+          list += user
+      robot.brain.set "catfactusers", list.join("|")
 
   isUserSubscribed = (user) ->
     subscribers = robot.brain.get("catfactusers") or ""
     return subscribers.indexOf(user) > -1
+
+  messageSubscribers = ->
+    subscribers = robot.brain.get("catfactusers")
+    unless subscribers == null || subscribers == ""
+      subscribers = subscribers.split("|")
+      for subscriber in subscribers
+        sendCatFact subscriber
